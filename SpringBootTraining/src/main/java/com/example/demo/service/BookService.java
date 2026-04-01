@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 // ==============================================================
 // [STEP-10] Service Layer — BookService (create)
@@ -84,5 +85,9 @@ public class BookService {
         return bookRepository.findAll();
     }
     
+    //@GetMapping("/book/{id}") — maps GET /book/1 to your method
+    public Optional<Book> findById(Long id) {
+        return bookRepository.findById(id);
+    }
 
 }

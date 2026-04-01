@@ -1,16 +1,19 @@
 package com.example.demo.controller;
 
-import com.example.demo.domain.Book;
-import com.example.demo.service.BookService;
-import lombok.AllArgsConstructor;
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable; //required for @PathVariable in findById()
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
+import com.example.demo.domain.Book;
+import com.example.demo.service.BookService;
+
+import lombok.AllArgsConstructor;
 
 // ==============================================================
 // [STEP-2] Controller Layer — BookController
@@ -126,5 +129,13 @@ public class BookController {
         return new ResponseEntity<>(bookService.findAll(), HttpStatus.OK);
     }
     
-
+    /*@PathVariable Long id — extracts the {id} value from the URL
+    HttpStatus.OK — return 200 when found
+    HttpStatus.NOT_FOUND — return 404 when not found */
+    @GetMapping("/book/{id}")
+    public ResponseEntity<Book> findById(@PathVariable Long id) {
+        return bookService.findById(id)
+                .map(book -> new ResponseEntity<>(book, HttpStatus.OK))
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
 }
