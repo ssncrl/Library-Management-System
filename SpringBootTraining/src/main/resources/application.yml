@@ -1,0 +1,58 @@
+# ==============================================================
+# [STEP-1] Server Configuration
+# --------------------------------------------------------------
+# Configures the port of the embedded Tomcat server.
+# Spring Boot's default port is 8080. We use 8081 here.
+# ==============================================================
+server:
+  port: 8081
+
+
+# ==============================================================
+# [STEP-3] H2 Database Connection
+# --------------------------------------------------------------
+# H2 Database
+#   A lightweight relational database written in Java.
+#   No installation required — ideal for development and learning.
+#
+# File-based vs In-memory:
+#   In-memory  →  jdbc:h2:mem:testdb    →  data lost on restart
+#   File-based →  jdbc:h2:file:~/bookdb →  data preserved on restart
+#   This project uses FILE-BASED mode.
+#
+# ddl-auto: create
+#   Hibernate drops and recreates all tables on every app startup.
+#   WARNING: all existing data is deleted on each restart.
+#   Other options: update | create-drop | validate | none
+#
+# H2 Console
+#   A browser-based SQL tool to inspect tables and run queries.
+#   Access at: http://localhost:8081/h2-console
+#     JDBC URL : jdbc:h2:file:~/bookdb
+#     Username : sa
+#     Password : (leave empty)
+#
+# TODO [STEP-3]: Remove the # from each line below to uncomment.
+#               Restart the app and open /h2-console to verify.
+# ==============================================================
+
+spring:
+ application:
+   name: book-service
+
+ h2:
+   console:
+     enabled: true
+     settings:
+       web-allow-others: true
+     path: /h2-console
+
+ datasource:
+   driver-class-name: org.h2.Driver
+   url: jdbc:h2:file:~/bookdb
+   username: sa
+   password:
+
+ jpa:
+   hibernate:
+     ddl-auto: create
