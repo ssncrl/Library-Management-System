@@ -1,0 +1,12 @@
+$kind: http-request
+name: http://localhost:8081/book
+url: http://localhost:8081/book
+method: POST
+body:
+  type: json
+  content: "{ \"title\": \"Clean Code\",\r
+
+    \        \"author\": \"Robert C. Martin\",\r
+
+    \        \"librarian\": { \"id\": 1 } }"
+order: 2255621759015762

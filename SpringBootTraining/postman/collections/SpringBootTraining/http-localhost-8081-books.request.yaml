@@ -1,0 +1,8 @@
+$kind: http-request
+name: http://localhost:8081/books
+url: http://localhost:8081/books
+method: POST
+body:
+  type: json
+  content: ""
+order: 4151272094525159

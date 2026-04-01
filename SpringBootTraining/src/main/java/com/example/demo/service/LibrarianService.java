@@ -5,6 +5,7 @@ import com.example.demo.repository.LibrarianRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import java.util.Optional;
 
 // ==============================================================
 // [STEP-9] Service Layer — LibrarianService
@@ -52,6 +53,11 @@ public class LibrarianService {
     @Transactional
     public Librarian create(Librarian librarian) {
         return librarianRepository.save(librarian);
+    }
+
+
+    public Optional<Librarian> findById(Long id) {
+        return librarianRepository.findById(id);
     }
     
 
