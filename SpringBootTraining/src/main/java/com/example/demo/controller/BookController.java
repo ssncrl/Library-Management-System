@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable; //required for @PathVariable in findById()
 import org.springframework.web.bind.annotation.PostMapping;
@@ -147,6 +148,16 @@ public class BookController {
         return bookService.update(id, updatedBook)
                 .map(book -> new ResponseEntity<>(book, HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
+    // @DeleteMapping("/book/{id}") — maps DELETE /book/1 to your method
+    // @PathVariable Long id — extracts the {id} value from the URL
+    @DeleteMapping("/book/{id}")
+    public ResponseEntity<Void> deleteById(@PathVariable Long id) {
+        if (bookService.deleteById(id)) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }
     

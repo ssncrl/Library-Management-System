@@ -6,6 +6,7 @@ import com.example.demo.service.LibrarianService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -76,6 +77,16 @@ public class LibrarianController {
         return librarianService.update(id, updatedLibrarian)
                 .map(librarian -> new ResponseEntity<>(librarian, HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
+    // @DeleteMapping("/librarian/{id}") — maps DELETE /librarian/1 to your method
+    // @PathVariable Long id — extracts the {id} value from the URL
+    @DeleteMapping("/librarian/{id}")
+    public ResponseEntity<Void> deleteById(@PathVariable Long id) {
+        if (librarianService.deleteById(id)) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
 }

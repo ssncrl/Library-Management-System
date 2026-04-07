@@ -72,5 +72,15 @@ public class LibrarianService {
                     return librarianRepository.save(existingLibrarian);
                 });
     }
+
+     //@DeleteMapping("/librarian/{id}")
+    // @PathVariable Long id
+    public boolean deleteById(Long id) {
+        if (librarianRepository.existsById(id)) {
+            librarianRepository.deleteById(id);
+            return true;
+        }
+        return false;
+    }
                                
 }

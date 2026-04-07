@@ -108,4 +108,13 @@ public class BookService {
                     return bookRepository.save(existingBook);
                 });
     }
+    //@DeleteMapping("/book/{id}")
+    // @PathVariable Long id
+    public boolean deleteById(Long id) {
+        if (bookRepository.existsById(id)) {
+            bookRepository.deleteById(id);
+            return true;
+        }
+        return false;
+    }
 }
