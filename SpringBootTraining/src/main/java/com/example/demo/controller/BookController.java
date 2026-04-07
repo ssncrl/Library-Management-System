@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable; //required for @PathVariable in findById()
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -132,9 +133,18 @@ public class BookController {
     /*@PathVariable Long id — extracts the {id} value from the URL
     HttpStatus.OK — return 200 when found
     HttpStatus.NOT_FOUND — return 404 when not found */
-    @GetMapping("/book/{id}")
+
+     @GetMapping("/book/{id}")
     public ResponseEntity<Book> findById(@PathVariable Long id) {
         return bookService.findById(id)
+                .map(book -> new ResponseEntity<>(book, HttpStatus.OK))
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
+     //@PutMapping("/book/{id}") — maps PUT /book/1 to your method
+    @PutMapping("/book/{id}")
+    public ResponseEntity<Book> update(@PathVariable Long id, @RequestBody Book updatedBook) {
+        return bookService.update(id, updatedBook)
                 .map(book -> new ResponseEntity<>(book, HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }

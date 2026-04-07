@@ -7,6 +7,8 @@ import com.example.demo.repository.LibrarianRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 import java.util.Optional;
@@ -89,5 +91,21 @@ public class BookService {
     public Optional<Book> findById(Long id) {
         return bookRepository.findById(id);
     }
+//     @PathVariable Long id
+//     @RequestBody Book updatedBook
 
+    public Optional<Book> update(Long id, Book updatedBook) {
+        return bookRepository.findById(id)
+                .map(existingBook -> {
+                    existingBook.setTitle(updatedBook.getTitle());
+                    existingBook.setAuthor(updatedBook.getAuthor());
+                    if (updatedBook.getLibrarian() != null) {
+                        Librarian librarian = librarianRepository
+                                .findById(updatedBook.getLibrarian().getId())
+                                .orElseThrow();
+                        existingBook.setLibrarian(librarian);
+                    }
+                    return bookRepository.save(existingBook);
+                });
+    }
 }

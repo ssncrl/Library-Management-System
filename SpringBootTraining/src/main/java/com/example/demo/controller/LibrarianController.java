@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -65,6 +66,14 @@ public class LibrarianController {
     @GetMapping("/librarian/{id}")
     public ResponseEntity<Librarian> findById(@PathVariable Long id) {
         return librarianService.findById(id)
+                .map(librarian -> new ResponseEntity<>(librarian, HttpStatus.OK))
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
+    //@PutMapping("/librarian/{id}") — maps PUT /librarian/1 to your method
+    @PutMapping("/librarian/{id}")
+    public ResponseEntity<Librarian> update(@PathVariable Long id, @RequestBody Librarian updatedLibrarian) {
+        return librarianService.update(id, updatedLibrarian)
                 .map(librarian -> new ResponseEntity<>(librarian, HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }

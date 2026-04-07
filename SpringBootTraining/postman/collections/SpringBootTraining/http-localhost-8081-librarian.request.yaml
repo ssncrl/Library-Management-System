@@ -1,7 +1,7 @@
 $kind: http-request
 name: http://localhost:8081/librarian
-url: http://localhost:8081/librarian
-method: POST
+url: http://localhost:8081/book/1
+method: GET
 body:
   type: json
   content: '{ "name": "John Smith", "email": "john@library.com" }'

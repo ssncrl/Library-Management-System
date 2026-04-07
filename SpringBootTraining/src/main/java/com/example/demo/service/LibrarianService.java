@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.domain.Book;
 import com.example.demo.domain.Librarian;
 import com.example.demo.repository.LibrarianRepository;
 import lombok.AllArgsConstructor;
@@ -60,5 +61,16 @@ public class LibrarianService {
         return librarianRepository.findById(id);
     }
     
+    //     @PathVariable Long id
+//     @RequestBody Librarian updatedLibrarian
 
+    public Optional<Librarian> update(Long id, Librarian updatedLibrarian) {
+        return librarianRepository.findById(id)
+                .map(existingLibrarian -> {
+                    existingLibrarian.setName(updatedLibrarian.getName());
+                    existingLibrarian.setEmail(updatedLibrarian.getEmail());
+                    return librarianRepository.save(existingLibrarian);
+                });
+    }
+                               
 }
