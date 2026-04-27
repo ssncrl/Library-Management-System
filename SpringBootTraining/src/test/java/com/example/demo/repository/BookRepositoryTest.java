@@ -167,5 +167,89 @@ class BookRepositoryTest {
         assertThat(found).isEmpty();
     }
 
+    // ----------------------------------------------------------
+    // TEST 6 — Find Books by Author
+    // Verifies: custom query method findByAuthor(String)
+    // ----------------------------------------------------------
+    @Test
+    void findByAuthor_returns_books_for_author() {
+
+        // given
+        bookRepository.save(new Book(null, "Clean Code", "Robert C. Martin", null));
+        bookRepository.save(new Book(null, "The Pragmatic Programmer", "David Thomas", null));
+        bookRepository.save(new Book(null, "Clean Architecture", "Robert C. Martin", null));
+
+        // when
+        List<Book> books = bookRepository.findByAuthor("Robert C. Martin");
+
+        // then
+        assertThat(books).hasSize(2);
+        assertThat(books).extracting(Book::getTitle)
+                .containsExactlyInAnyOrder("Clean Code", "Clean Architecture");
+    }
+
+    // ----------------------------------------------------------
+    // TEST 7 — Find Books by Librarian ID
+    // Verifies: custom query method findByLibrarianId(Long)
+    // ----------------------------------------------------------
+    @Test
+    void findByLibrarianId_returns_books_for_librarian() {
+
+        // given
+        Librarian librarian = new Librarian(null, "John Smith", "john@library.com", new ArrayList<>());
+        Librarian savedLibrarian = librarianRepository.save(librarian);
+
+        bookRepository.save(new Book(null, "Clean Code", "Robert C. Martin", savedLibrarian));
+        bookRepository.save(new Book(null, "Spring Boot in Action", "Craig Walls", savedLibrarian));
+        bookRepository.save(new Book(null, "The Pragmatic Programmer", "David Thomas", null));
+
+        // when
+        List<Book> books = bookRepository.findByLibrarianId(savedLibrarian.getId());
+
+        // then
+        assertThat(books).hasSize(2);
+        assertThat(books).allMatch(book -> book.getLibrarian().getId().equals(savedLibrarian.getId()));
+    }
+
+    // ----------------------------------------------------------
+    // TEST 8 — Find Librarian by Email
+    // Verifies: custom query method findByEmail(String)
+    // ----------------------------------------------------------
+    @Test
+    void findByEmail_returns_librarian() {
+
+        // given
+        Librarian librarian = new Librarian(null, "John Smith", "john@library.com", new ArrayList<>());
+        librarianRepository.save(librarian);
+
+        // when
+        Optional<Librarian> found = librarianRepository.findByEmail("john@library.com");
+
+        // then
+        assertThat(found).isPresent();
+        assertThat(found.get().getName()).isEqualTo("John Smith");
+    }
+
+    // ----------------------------------------------------------
+    // TEST 9 — Find Librarians by Name Containing Keyword
+    // Verifies: custom query method findByNameContaining(String)
+    // ----------------------------------------------------------
+    @Test
+    void findByNameContaining_returns_matching_librarians() {
+
+        // given
+        librarianRepository.save(new Librarian(null, "John Smith", "john@library.com", new ArrayList<>()));
+        librarianRepository.save(new Librarian(null, "Mary Johnson", "mary@library.com", new ArrayList<>()));
+        librarianRepository.save(new Librarian(null, "Jane Doe", "jane@library.com", new ArrayList<>()));
+
+        // when
+        List<Librarian> found = librarianRepository.findByNameContaining("John");
+
+        // then
+        assertThat(found).hasSize(2);
+        assertThat(found).extracting(Librarian::getName)
+                .containsExactlyInAnyOrder("John Smith", "Mary Johnson");
+    }
+
 }
 
