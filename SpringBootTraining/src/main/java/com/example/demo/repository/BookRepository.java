@@ -4,6 +4,8 @@ import com.example.demo.domain.Book;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 // ==============================================================
 // [STEP-7] Repository Layer — BookRepository
 // --------------------------------------------------------------
@@ -36,6 +38,10 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface BookRepository extends JpaRepository<Book, Long> {
+
+    List<Book> findByAuthor(String author);
+
+    List<Book> findByLibrarianId(Long librarianId);
 }
 
 

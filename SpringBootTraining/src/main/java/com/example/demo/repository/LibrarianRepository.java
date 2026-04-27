@@ -4,6 +4,9 @@ import com.example.demo.domain.Librarian;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+import java.util.Optional;
+
 // ==============================================================
 // [STEP-7] Repository Layer — LibrarianRepository
 // --------------------------------------------------------------
@@ -23,6 +26,10 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface LibrarianRepository extends JpaRepository<Librarian, Long> {
+
+    Optional<Librarian> findByEmail(String email);
+
+    List<Librarian> findByNameContaining(String keyword);
 }
 
 
